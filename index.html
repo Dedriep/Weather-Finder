@@ -1,30 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--styeleseet for materialize-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
     <title>Weather Dashboard</title>
 </head>
+
 <body>
-    <header> Weather Dashboard</header>
-    
-    <!--Search bar/ clear to the left-->
-    <div>
-        <!--search history-->
-        <div>
+    <header class="card-panel teal lighten center-align"> Weather Dashboard</header>
 
+    <div class="row">
+        <!--Search INFO-->
+        <div class="col s3">
+            <!--Search bar/ clear to the left-->
+
+            <div>
+                <form>
+                    <h4>SEARCH FOR A CITY</h4>
+                    <input type="text" placeholder="Enter a city name" name="search">
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+
+
+            <!--search history-->
+            <div>
+
+            </div>
         </div>
+        <!--current forecast appears here-->
+        <main class= "col s9">
+            <!--5 day forecast-->
+            <div>
+                <h5>5-Day Forecast:</h5>
+
+            </div>
+        </main>
     </div>
-    <!--current forecast appears here-->
-    <main>
-        <!--5 day forecast-->
-        <div>
 
-        </div>
-    </main>
-
-
-    
+    <!--javascript for materialize-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
+
 </html>
