@@ -60,6 +60,7 @@ function oneCallAPIWeather(latitude, longitude){
             return response.json();
         }).then (function (apiData) {
             console.log("api data", apiData);
+
             
         }).catch(function (error) {
             console.log("Error Msg", error)
@@ -67,8 +68,12 @@ function oneCallAPIWeather(latitude, longitude){
 
 
     //DISPLAY IT ON THE HTML PAGE 
-    var currentWeather = apiData[1].current;
+
+    var currentWeather = apiData[0].temp
+    
     console.log(currentWeather)
+
+    document.getElementById("current-temp").textContent = currentWeather
 }
 
 //Add Event listener 
