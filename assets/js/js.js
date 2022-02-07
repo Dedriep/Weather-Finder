@@ -60,6 +60,14 @@ function oneCallAPIWeather(latitude, longitude){
             return response.json();
         }).then (function (apiData) {
             console.log("api data", apiData);
+        
+
+            console.log(apiData.current.temp)
+
+            //var currentWeather = apiData.temp
+    
+
+        document.getElementById("current-temp").innerHTML = "Temperature: " + apiData.current.temp + "</br>" + "Wind: " + apiData.current.wind_speed + "</br>" + "Humidity: " + apiData.current.humidity + "</br>" + "UV Index: " + apiData.current.uvi
 
             
         }).catch(function (error) {
@@ -69,11 +77,7 @@ function oneCallAPIWeather(latitude, longitude){
 
     //DISPLAY IT ON THE HTML PAGE 
 
-    var currentWeather = apiData[0].temp
     
-    console.log(currentWeather)
-
-    document.getElementById("current-temp").textContent = currentWeather
 }
 
 //Add Event listener 
