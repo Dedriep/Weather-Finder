@@ -33,7 +33,7 @@ function getWeather(event) {
             document.getElementById("current-city").textContent = apiData[0].name;            
             
             // CALL THE ONE CALL API fetch request 
-            //oneCallAPIWeather(latitude, longitude); 
+            oneCallAPIWeather(latitude, longitude); 
             //console.log (oneCallAPIWeather(latitude, longitude))
 
         }).catch(function (error) {
@@ -50,7 +50,7 @@ function getWeather(event) {
 function oneCallAPIWeather(latitude, longitude){
 
     //URL variable 
-    var oneCallAPIWeather = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + latitude + '&lon=' + longitude + 'exclude=alerts&appid=' + apiKey
+    var oneCallAPIWeather = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + latitude + '&lon=' + longitude + '&exclude=alerts&appid=' + apiKey
         console.log(oneCallAPIWeather)
 
     //FETCH REQUEST 
@@ -67,7 +67,8 @@ function oneCallAPIWeather(latitude, longitude){
 
 
     //DISPLAY IT ON THE HTML PAGE 
-    
+    var currentWeather = apiData[1].current;
+    console.log(currentWeather)
 }
 
 //Add Event listener 
