@@ -68,10 +68,18 @@ function oneCallAPIWeather(latitude, longitude) {
             document.getElementById("current-temp").innerHTML = "Temperature: " + apiData.current.temp + "</br>" + "Wind: " + apiData.current.wind_speed + "</br>" + "Humidity: " + apiData.current.humidity + "</br>" + "UV Index: " + apiData.current.uvi
 
             for (let  i= 0;  i< 5; i++) {
-                const futureForecast = apiData.daily[0].temp.day[0];
-                console.log(futureForecast)
+                let futureTemp = apiData.daily[i].temp.day;
+                let wind = apiData.daily[i].wind_speed
+                let uvi = apiData.daily[i].uvi
+                let humidity = apiData.daily[i].humidity
+                console.log(futureTemp)
                 //apend to future-forcasr div
-                document.getElementById("future-forecast").innerHTML = "Temperature: " + apiData.daily[0].temp.day
+                
+                const node = document.createElement("li");
+                node.classList.add("future")
+                const textnode = document.createTextNode("Temperature:" + futureTemp + "</br>" + "Wind: " + apiData.daily[i].wind_speed + "</br>" + "UVI: " + apiData.daily[i].uvi + "</br>" + "Humidity: " + apiData.daily[i].humidity)
+                node.appendChild(textnode);
+                document.getElementById("future-forecast").appendChild(node);
 
             }
 
