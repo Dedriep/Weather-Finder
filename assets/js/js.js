@@ -65,7 +65,6 @@ function oneCallAPIWeather(latitude, longitude) {
             console.log(apiData.current.temp)
 
             JSON.stringify(apiData)
-            var newLine = document.createElement("br")
 
             document.getElementById("current-temp").innerHTML = "Temperature: " + apiData.current.temp + "<br/>" + "Wind: " + apiData.current.wind_speed + "<br/>" + "Humidity: " + apiData.current.humidity + "</br>" + "UV Index: " + apiData.current.uvi
 
@@ -75,14 +74,17 @@ function oneCallAPIWeather(latitude, longitude) {
                 let uvi = apiData.daily[i].uvi
                 let humidity = apiData.daily[i].humidity
                 console.log(futureTemp)
+                
+                //document.getElementById("future-forecast").innerHTML = "Temperature:" + futureTemp  + "Wind: " + apiData.daily[i].wind_speed + "<br />" + "UVI: " + apiData.daily[i].uvi + "<br />" + "Humidity: " + apiData.daily[i].humidity
+
                 //apend to future-forcasr div
 
                 const node = document.createElement("li");
                 node.classList.add("future")
-                const textnode = document.createTextNode("Temperature:" + futureTemp + newLine + "Wind: " + apiData.daily[i].wind_speed + "<br />" + "UVI: " + apiData.daily[i].uvi + "<br />" + "Humidity: " + apiData.daily[i].humidity)
+                const textnode = document.createTextNode("Temperature:" + futureTemp  + "Wind: " + wind + "<br />" + "UVI: " + uvi + "<br />" + "Humidity: " + humidity)
                 node.appendChild(textnode);
                 document.getElementById("future-forecast").appendChild(node);
-
+                
             } 
 
     
