@@ -13,63 +13,71 @@ function getWeather(event) {
 
     var locationURL = 'http://api.openweathermap.org/geo/1.0/direct?q=' + searchInput.value + '&limit=1&appid=' + apiKey;
     console.log(locationURL);
-    
+
 
     //Fetching the lat and Lon based on the search input entered by the user 
     fetch(locationURL)
-    
+
         .then(function (res) {
             //console.log("Response", res);
             return res.json(); //returns a JSON friendly response on a successful api call
         }).then(function (apiData) {
             console.log("Api JSON Response", apiData);
-            
+
             //GRAB THE LAT AND LON from the response 
-            var latitude = apiData[0].lat; 
-            var longitude = apiData[0].lon; 
-            
+            var latitude = apiData[0].lat;
+            var longitude = apiData[0].lon;
+
             console.log("lat", longitude, latitude);
             //display the city on the HTML 
-            document.getElementById("current-city").textContent = apiData[0].name;            
-            
+            document.getElementById("current-city").textContent = apiData[0].name;
+
             // CALL THE ONE CALL API fetch request 
-            oneCallAPIWeather(latitude, longitude); 
+            oneCallAPIWeather(latitude, longitude);
             //console.log (oneCallAPIWeather(latitude, longitude))
 
         }).catch(function (error) {
             console.log("Error Msg", error)
         })
 
-   
+
 
 
     //Reset the search input field 
     searchInput.value = "";
 }
 
-function oneCallAPIWeather(latitude, longitude){
+function oneCallAPIWeather(latitude, longitude) {
 
     //URL variable 
     var oneCallAPIWeather = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + latitude + '&lon=' + longitude + '&exclude=alerts&appid=' + apiKey
-        console.log(oneCallAPIWeather)
+    console.log(oneCallAPIWeather)
 
     //FETCH REQUEST 
-    fetch (oneCallAPIWeather)
-        .then (function (response) {
+    fetch(oneCallAPIWeather)
+        .then(function (response) {
 
             return response.json();
-        }).then (function (apiData) {
+        }).then(function (apiData) {
             console.log("api data", apiData);
-        
+
 
             console.log(apiData.current.temp)
 
-            //var currentWeather = apiData.temp
+
+            document.getElementById("current-temp").innerHTML = "Temperature: " + apiData.current.temp + "</br>" + "Wind: " + apiData.current.wind_speed + "</br>" + "Humidity: " + apiData.current.humidity + "</br>" + "UV Index: " + apiData.current.uvi
+
+            for (let  i= 0;  i< 5; i++) {
+                const futureForecast = apiData.daily[0].temp.day[0];
+                console.log(futureForecast)
+                //apend to future-forcasr div
+                document.getElementById("future-forecast").innerHTML = "Temperature: " + apiData.daily[0].temp.day
+
+            }
+
     
+            //document.getElementById("future-forecast")
 
-        document.getElementById("current-temp").innerHTML = "Temperature: " + apiData.current.temp + "</br>" + "Wind: " + apiData.current.wind_speed + "</br>" + "Humidity: " + apiData.current.humidity + "</br>" + "UV Index: " + apiData.current.uvi
-
-            
         }).catch(function (error) {
             console.log("Error Msg", error)
         });
@@ -77,7 +85,7 @@ function oneCallAPIWeather(latitude, longitude){
 
     //DISPLAY IT ON THE HTML PAGE 
 
-    
+
 }
 
 //Add Event listener 
