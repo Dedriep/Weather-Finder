@@ -4,6 +4,11 @@ console.log("loading js script file ...");
 var searchButton = document.getElementById("submit-button");
 var searchInput = document.getElementById("search-input");
 
+var previousSearchArray = JSON.parse(localStorage.getItem("city"));
+if (previousSearchArray === null) {
+    previousSearchArray = []; //asign empty array 
+}
+console.log(previousSearchArray);
 
 //Declaring a Function 
 function getWeather(event) {
@@ -30,11 +35,19 @@ function getWeather(event) {
 
             console.log("lat", longitude, latitude);
             //display the city on the HTML 
-            document.getElementById("current-city").textContent = apiData[0].name;
+            let currentCity = document.getElementById("current-city")
+            currentCity.textContent = apiData[0].name;
 
             // CALL THE ONE CALL API fetch request 
             oneCallAPIWeather(latitude, longitude);
             //console.log (oneCallAPIWeather(latitude, longitude))
+            //cityStorage
+            //append my new city to the previously searched City list from local storage 
+            previousSearchArray.unshift(currentCity.textContent);
+            //console.log("supdated previous ", previousSearchArray); 
+
+            //Set the city in lOcal Storage 
+            localStorage.setItem("city", JSON.stringify(previousSearchArray));
 
         }).catch(function (error) {
             console.log("Error Msg", error)
@@ -66,28 +79,44 @@ function oneCallAPIWeather(latitude, longitude) {
 
             JSON.stringify(apiData)
 
+
             document.getElementById("current-temp").innerHTML = "Temperature: " + apiData.current.temp + "<br/>" + "Wind: " + apiData.current.wind_speed + "<br/>" + "Humidity: " + apiData.current.humidity + "</br>" + "UV Index: " + apiData.current.uvi
 
-            for (let  i= 0;  i< 5; i++) {
-                let futureTemp = apiData.daily[i].temp.day
+            for (let i = 0; i < 5; i++) {
+                let futureTemp = JSON.stringify(apiData.daily[i].temp.day, 10)
                 let wind = apiData.daily[i].wind_speed
                 let uvi = apiData.daily[i].uvi
                 let humidity = apiData.daily[i].humidity
                 console.log(futureTemp)
-                
+
                 //document.getElementById("future-forecast").innerHTML = "Temperature:" + futureTemp  + "Wind: " + apiData.daily[i].wind_speed + "<br />" + "UVI: " + apiData.daily[i].uvi + "<br />" + "Humidity: " + apiData.daily[i].humidity
 
                 //apend to future-forcasr div
 
                 const node = document.createElement("li");
                 node.classList.add("future")
-                const textnode = document.createTextNode("Temperature:" + futureTemp  + "Wind: " + wind + "<br />" + "UVI: " + uvi + "<br />" + "Humidity: " + humidity)
-                node.appendChild(textnode);
-                document.getElementById("future-forecast").appendChild(node);
-                
-            } 
+                const textnode = document.createTextNode("Temperature:" + futureTemp);
+                const textnode2 = document.createElement("li");
+                textnode2.textContent = "Wind : " + wind;
+                const textnode3 = document.createElement("li");
+                textnode3.textContent = "UVI : " + uvi;
+                const textnode4 = document.createElement("li");
+                textnode4.textContent = "Humidity : " + humidity;
 
-    
+                //+  "Wind: " + wind + "\n " + "UVI: " + uvi + "<br />" + "Humidity: " + humidity)
+                node.appendChild(textnode);
+                node.appendChild(textnode2);
+                node.appendChild(textnode3);
+                node.appendChild(textnode4);
+                document.getElementById("future-forecast").appendChild(node);
+
+            }
+
+
+            //refreshes your search city list 
+            cityStorage()
+
+
             //document.getElementById("future-forecast")
 
         }).catch(function (error) {
@@ -99,6 +128,63 @@ function oneCallAPIWeather(latitude, longitude) {
 
 
 }
+function searchWeather(cityName) {
+
+    var locationURL = 'http://api.openweathermap.org/geo/1.0/direct?q=' + cityName + '&limit=1&appid=' + apiKey;
+    console.log(locationURL);
+
+    //Fetching the lat and Lon based on the search input entered by the user 
+    fetch(locationURL)
+
+        .then(function (res) {
+            //console.log("Response", res);
+            return res.json(); //returns a JSON friendly response on a successful api call
+        }).then(function (apiData) {
+            console.log("Api JSON Response", apiData);
+
+            //GRAB THE LAT AND LON from the response 
+            var latitude = apiData[0].lat;
+            var longitude = apiData[0].lon;
+
+            console.log("lat", longitude, latitude);
+            //display the city on the HTML 
+            let currentCity = document.getElementById("current-city")
+            currentCity.textContent = apiData[0].name;
+
+            // CALL THE ONE CALL API fetch request 
+            oneCallAPIWeather(latitude, longitude);
+
+        }).catch(function (error) {
+            console.log("Error Msg", error)
+        })
+
+
+}
+
+// ADD LOCALSTORAGE AND DISPLAY ON PAGE
+
+function cityStorage() {
+
+    //lop through all the cities searched earlier 
+
+    for (let i = 0; i < 5; i++) {
+        const element = previousSearchArray[i];
+        //create a button 
+
+        //display text 
+
+        //add event listener to call the searchweather 
+
+        //append to search-history div
+        document.getElementById("search-history").appendChild(searchbutton)
+
+    }
+
+
+
+
+}
+
 
 //Add Event listener 
 searchButton.onclick = getWeather;
