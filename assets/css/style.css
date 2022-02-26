@@ -1,4 +1,27 @@
+body{
+    margin: 10px
+}
+
 .future{
     border: 2px;
     border-color: blueviolet;
+}
+
+#header-text {
+    font-size: 50px;
+    font-weight: bold;
+    color: white;
+
+}
+
+input{
+    border-style: dotted;
+    border: 2px;
+    border-color: black;
+    
+}
+
+.current-forecast {
+    padding: 1px;
+    margin: 5px
 }
