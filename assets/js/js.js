@@ -1,3 +1,6 @@
+
+//var moment = require('moment');
+
 var apiKey = 'e25813769e73c32b981b464f3ca85e2c';
 
 console.log("loading js script file ...");
@@ -11,6 +14,9 @@ if (previousSearchArray === null) {
     previousSearchArray = []; //asign empty array 
 }
 console.log(previousSearchArray);
+
+//var now = moment().format("MMM Do YY");           
+
 
 //Declaring a Function 
 function getWeather(event) {
@@ -67,7 +73,7 @@ function getWeather(event) {
 function oneCallAPIWeather(latitude, longitude) {
 
     //URL variable 
-    var oneCallAPIWeather = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + latitude + '&lon=' + longitude + '&exclude=alerts&appid=' + apiKey
+    var oneCallAPIWeather = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + latitude + '&lon=' + longitude + '&units=imperial&exclude=alerts&appid=' + apiKey
     console.log(oneCallAPIWeather)
 
     //FETCH REQUEST 
@@ -84,7 +90,7 @@ function oneCallAPIWeather(latitude, longitude) {
             JSON.stringify(apiData)
 
 
-            document.getElementById("current-temp").innerHTML = "Temperature: " + apiData.current.temp + "<br/>" + "Wind: " + apiData.current.wind_speed + "<br/>" + "Humidity: " + apiData.current.humidity + "</br>" + "UV Index: " + apiData.current.uvi
+            document.getElementById("current-temp").innerHTML =  "<br/>" + "Temperature: " + apiData.current.temp + "℉" + "<br/>" + "Wind: " + apiData.current.wind_speed + "<br/>" + "Humidity: " + apiData.current.humidity + "</br>" + "UV Index: " + apiData.current.uvi
 
             for (let i = 0; i < 5; i++) {
                 let futureTemp = JSON.stringify(apiData.daily[i].temp.day, 10)
@@ -99,13 +105,13 @@ function oneCallAPIWeather(latitude, longitude) {
 
                 const node = document.createElement("li");
                 node.classList.add("future")
-                const textnode = document.createTextNode("Temperature:" + futureTemp);
+                const textnode = document.createTextNode("Temperature:" + futureTemp + "℉");
                 const textnode2 = document.createElement("li");
-                textnode2.textContent = "Wind : " + wind;
+                textnode2.textContent = "Wind: " + wind + "MPH";
                 const textnode3 = document.createElement("li");
-                textnode3.textContent = "UVI : " + uvi;
+                textnode3.textContent = "UVI: " + uvi;
                 const textnode4 = document.createElement("li");
-                textnode4.textContent = "Humidity : " + humidity;
+                textnode4.textContent = "Humidity: " + humidity + "%";
 
                 node.appendChild(textnode);
                 node.appendChild(textnode2);
@@ -178,6 +184,7 @@ function cityStorage() {
 
         //create a button 
         var historyButton = document.createElement('button')
+        historyButton.classList.add("history-button")
 
         //display text 
         historyButton.textContent = element;
