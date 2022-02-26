@@ -4,7 +4,9 @@ console.log("loading js script file ...");
 var searchButton = document.getElementById("submit-button");
 var searchInput = document.getElementById("search-input");
 
+//populate 
 var previousSearchArray = JSON.parse(localStorage.getItem("city"));
+
 if (previousSearchArray === null) {
     previousSearchArray = []; //asign empty array 
 }
@@ -44,10 +46,12 @@ function getWeather(event) {
             //cityStorage
             //append my new city to the previously searched City list from local storage 
             previousSearchArray.unshift(currentCity.textContent);
-            //console.log("supdated previous ", previousSearchArray); 
 
             //Set the city in lOcal Storage 
             localStorage.setItem("city", JSON.stringify(previousSearchArray));
+
+            //refreshes your search city list 
+            cityStorage();
 
         }).catch(function (error) {
             console.log("Error Msg", error)
@@ -103,7 +107,6 @@ function oneCallAPIWeather(latitude, longitude) {
                 const textnode4 = document.createElement("li");
                 textnode4.textContent = "Humidity : " + humidity;
 
-                //+  "Wind: " + wind + "\n " + "UVI: " + uvi + "<br />" + "Humidity: " + humidity)
                 node.appendChild(textnode);
                 node.appendChild(textnode2);
                 node.appendChild(textnode3);
@@ -111,12 +114,6 @@ function oneCallAPIWeather(latitude, longitude) {
                 document.getElementById("future-forecast").appendChild(node);
 
             }
-
-
-            //refreshes your search city list 
-            cityStorage()
-
-
             //document.getElementById("future-forecast")
 
         }).catch(function (error) {
@@ -164,27 +161,40 @@ function searchWeather(cityName) {
 // ADD LOCALSTORAGE AND DISPLAY ON PAGE
 
 function cityStorage() {
+    console.log("city storage function ");
+    //reset the old data 
+    document.getElementById("search-history").innerHTML = "";
 
     //lop through all the cities searched earlier 
-
-    for (let i = 0; i < 5; i++) {
+    let maxCount;
+    if (previousSearchArray.length > 5) {
+        maxCount = 5;
+    } else {
+        maxCount = previousSearchArray.length;
+    }
+    for (let i = 0; i < maxCount; i++) {
         const element = previousSearchArray[i];
+        console.log("Previous saved cities ", element, " for ", i);
+
         //create a button 
+        var historyButton = document.createElement('button')
 
         //display text 
+        historyButton.textContent = element;
 
         //add event listener to call the searchweather 
+        historyButton.addEventListener('click', function () {
+            searchWeather(element);
+        })
 
         //append to search-history div
-        document.getElementById("search-history").appendChild(searchbutton)
+        document.getElementById("search-history").appendChild(historyButton);
 
     }
 
-
-
-
 }
 
+cityStorage();
 
 //Add Event listener 
 searchButton.onclick = getWeather;
